@@ -1,0 +1,160 @@
+    {
+        "id": 1,
+        "title": "Tour Title",
+        "price": "Tour Price",
+        "detail": [
+            {
+                "detail1": "#",
+                "detail2": "#",
+                "detail3": "#",
+                "detail4": "#",
+                "detail5": "#",
+                "detail6": "#",
+                "detail7": "#",
+                "detail8": "#",
+                "detail9": "#"
+            }
+        ],
+        "tour_plan": [
+            {
+                "title": "Tour Title1",
+                "description": "Tour Description1"
+            },
+            {
+                "title": "Tour Title2",
+                "description": "Tour Description2"
+            },
+            {
+                "title": "Tour Title3",
+                "description": "Tour Description3"
+            },
+            {
+                "title": "Tour Title4",
+                "description": "Tour Description4"
+            },
+            {
+                "title": "Tour Title5",
+                "description": "Tour Description5"
+            },
+            {
+                "title": "Tour Title6",
+                "description": "Tour Description6"
+            },
+            {
+                "title": "Tour Title7",
+                "description": "Tour Description7"
+            },
+            {
+                "title": "Tour Title8",
+                "description": "Tour Description8"
+            },
+            {
+                "title": "Tour Title1",
+                "description": "Tour Description1"
+            },
+            {
+                "title": "Tour Title9",
+                "description": "Tour Description9"
+            },
+            {
+                "title": "Tour Title10",
+                "description": "Tour Description10"
+            },
+            {
+                "title": "Tour Title11",
+                "description": "Tour Description11"
+            },
+            {
+                "title": "Tour Title12",
+                "description": "Tour Description12"
+            },
+            {
+                "title": "Tour Title13",
+                "description": "Tour Description13"
+            },
+            {
+                "title": "Tour Title14",
+                "description": "Tour Description14"
+            },
+            {
+                "title": "Tour Title15",
+                "description": "Tour Description15"
+            },
+            {
+                "title": "Tour Title16",
+                "description": "Tour Description16"
+            }
+        ],
+        "tour-description": [
+            {
+                "paragraf1": "paragraf 1",
+                "paragraf2": "paragraf 2",
+                "paragraf3": "paragraf 3",
+                "paragraf4": "paragraf 4",
+                "paragraf5": "paragraf 5",
+                "paragraf6": "paragraf 6",
+                "paragraf7": "paragraf 7",
+                "paragraf8": "paragraf 8",
+                "paragraf9": "paragraf 9",
+                "paragraf10": "paragraf 10"
+            }
+        ],
+        "included": [
+            {
+                "include1": "include1",
+                "include2": "include1",
+                "include3": "include1",
+                "include4": "include1",
+                "include5": "include1",
+                "include6": "include1",
+                "include7": "include1",
+                "include8": "include1",
+                "include9": "include1",
+                "include10": "include1"
+            }
+        ],
+        "not-included": [
+            {
+                "not-included1": "not-included1",
+                "not-included2": "not-included1",
+                "not-included3": "not-included1",
+                "not-included4": "not-included1",
+                "not-included5": "not-included1",
+                "not-included6": "not-included1",
+                "not-included7": "not-included1",
+                "not-included8": "not-included1",
+                "not-included9": "not-included1",
+                "not-included10": "not-included1"
+            }
+        ],
+        "cancellation": [
+            {
+                "cancel1": "cancel1",
+                "cancel2": "cancel2",
+                "cancel3": "cancel3",
+                "cancel4": "cancel4",
+                "cancel5": "cancel5"
+            }
+        ],
+        "image": [
+            {
+                "image1": "image",
+                "image2": "image",
+                "image3": "image",
+                "image4": "image",
+                "image5": "image"
+            }
+
+        ],
+        "imageUrl": [
+            {
+                "imageUrl1": "ImageUrl",
+                "imageUrl2": "ImageUrl",
+                "imageUrl3": "ImageUrl",
+                "imageUrl4": "ImageUrl",
+                "imageUrl5": "ImageUrl"
+            }
+        ],
+        "createdAt": "2024-02-21T13:06:08.000Z",
+        "updatedAt": "2024-02-21T13:06:08.000Z"
+    }
