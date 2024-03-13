@@ -1,5 +1,8 @@
-const { DataTypes } = require("sequelize");
+const { Sequelize } = require("sequelize");
 const db = require("../config/Database.js");
+const Tour = require("../models/TourModel.js")
+
+const { DataTypes } = Sequelize;
 
 const Detail = db.define('tour_detail', {
     detail1: {
@@ -32,6 +35,12 @@ const Detail = db.define('tour_detail', {
     detail9: {
         type: DataTypes.STRING,
     },
+    createdAt: {
+        type: DataTypes.DATE
+    },
+    updatedAt: {
+        type: DataTypes.DATE
+    },
 }, {
     freezeTableName: true
 });
@@ -39,5 +48,8 @@ const Detail = db.define('tour_detail', {
 (async () => {
     await db.sync();
 })();
+Detail.associate = () => {
+    Detail.belongsTo(Tour);
+}
 
 module.exports = Detail;

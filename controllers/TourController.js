@@ -1,4 +1,3 @@
-const fs = require('fs');
 const Tour = require("../models/TourModel.js");
 const Plan = require('../models/PlanModel.js')
 const Include = require('../models/IncludeMode.js')
@@ -7,10 +6,7 @@ const Image = require('../models/ImageModel.js')
 const Detail = require('../models/DetailModel.js')
 const Description = require('../models/DescriptionModel.js')
 const Cancellation = require('../models/CancellationModel.js')
-const multer = require('multer');
 
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
 
 exports.getTours = async function (req, res) {
     try {
@@ -24,45 +20,34 @@ exports.getTours = async function (req, res) {
 
 exports.getTourById = async function (req, res) {
     try {
-      const tourId = req.params.id;
-      const tour = await Tour.findByPk(tourId, {
-        include: [
-          { model: Detail },
-          { model: Plan },
-          { model: Description },
-          { model: Include },
-          { model: NotInclude },
-          { model: Cancellation },
-          { model: Image },
-        ]
-      });
-  
-      if (!tour) {
-        return res.status(404).json({ error: 'Tour not found' });
-      }
-  
-      // Format the response
-      const response = {
-        id: tour.id,
-        title: tour.title,
-        price: tour.price,
-        detail: tour.Details,
-        'tour_plan': tour.TourPlans,
-        'tour-description': tour.TourDescriptions,
-        included: tour.Includeds,
-        'not-included': tour.NotIncludeds,
-        cancellation: tour.Cancellations,
-        image: tour.Images,
-        createdAt: tour.createdAt,
-        updatedAt: tour.updatedAt
-      };
-  
-      res.json(response);
+        const id = req.params.id;
+        const tour = await Tour.findByPk(id, {
+            include: [
+                { model: Detail },
+                { model: Plan },
+                { model: Description },
+                { model: Include },
+                { model: NotInclude },
+                { model: Cancellation },
+                { model: Image },
+            ]
+        });
+
+        if (!tour) {
+            return res.status(404).json({ error: 'Tour not found' });
+        }
+
+        res.json({
+            data: tour
+        });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Internal server error' });
+        console.error(error);
+        res.status(500).json({ error: 'Internal server error' });
     }
-  }
+}
+
+
+
 
 exports.updateTour = async function (req, res) {
     try {

@@ -8,10 +8,10 @@ const Description = require('../models/DescriptionModel.js')
 const Cancellation = require('../models/CancellationModel.js')
 
 
-Tour.hasMany(Detail);
-Tour.hasMany(Plan);
-Tour.hasMany(Description);
-Tour.hasMany(Include);
-Tour.hasMany(NotInclude);
-Tour.hasMany(Cancellation);
-Tour.hasMany(Image);
+Tour.hasOne(Detail, { foreignKey: 'tourId' });
+Tour.hasOne(Plan, { foreignKey: 'tourId' });
+Tour.hasOne(Description, { foreignKey: 'tourId' });
+Tour.hasOne(Include, { foreignKey: 'tourId' });
+Tour.hasOne(NotInclude, { foreignKey: 'tourId' });
+Tour.hasOne(Cancellation, { foreignKey: 'tourId' });
+Tour.hasOne(Image, { foreignKey: 'tourId' });

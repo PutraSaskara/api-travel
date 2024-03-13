@@ -1,5 +1,8 @@
-const { DataTypes } = require("sequelize");
+const { Sequelize } = require("sequelize");
 const db = require("../config/Database.js");
+const Tour = require("../models/TourModel.js")
+
+const {DataTypes} = Sequelize;
 
 const Image = db.define('image', {
     image1: {
@@ -12,6 +15,14 @@ const Image = db.define('image', {
     image3: {
         type: DataTypes.STRING,
     },
+    // tourId: {
+    //     type: DataTypes.INTEGER, // Assuming the primary key of the Tour model is of type INTEGER
+    //     allowNull: false,
+    //     references: {
+    //         model: Tour,
+    //         key: 'id' // Assuming the primary key of the Tour model is named 'id'
+    //     }
+    // }
 }, {
     freezeTableName: true
 });
@@ -19,5 +30,5 @@ const Image = db.define('image', {
 (async () => {
     await db.sync();
 })();
-
+// Image.belongsTo(Tour, { foreignKey: 'tourId' });
 module.exports = Image;
