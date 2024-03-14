@@ -1,6 +1,7 @@
 const Image = require("../models/ImageModel");
 const fs = require('fs');
 const path = require('path');
+const baseURL = require('../config');
 
 // Get all images
 exports.getImage = async (req, res) => {
@@ -48,7 +49,7 @@ exports.createImage = async (req, res) => {
 
         const images = req.files.map(file => ({
             filename: file.filename,
-            url: `http://localhost:5000/uploads/${file.filename}`
+            url: `${baseURL}/uploads/${file.filename}`
         }));
 
         const newImages = await Image.create({

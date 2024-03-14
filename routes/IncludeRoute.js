@@ -1,6 +1,7 @@
 // routes/tours.js
 const express = require('express');
 const IncludeController = require('../controllers/IncludeController')
+// const authMiddleware = require('../middleware/auth.js'); 
 
 
 
