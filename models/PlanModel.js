@@ -58,7 +58,7 @@ const Plan = db.define('tour_plan', {
     },
     description9: {
         type: DataTypes.STRING,
-    },
+    }
 }, {
     freezeTableName: true
 });
@@ -68,7 +68,7 @@ const Plan = db.define('tour_plan', {
 })();
 
 Plan.associate = () => {
-    Plan.belongsTo(Tour, { foreignKey: 'id' });
+    Plan.belongsTo(Tour, { foreignKey: 'tourId' });
 }
 
 // Plan.belongsTo(Tour, { foreignKey: 'tourId' });

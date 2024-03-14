@@ -9,7 +9,7 @@ const router = express.Router();
 router.get('/not-include', NotIncludeController.getNotInclude);
 router.get('/not-include/:id', NotIncludeController.getNotIncludeById);
 router.post('/not-include', NotIncludeController.createNotInclude);
-router.patch('/not-include', NotIncludeController.updateNotInclude);
-router.delete('/not-include', NotIncludeController.deleteNotInclude);
+router.patch('/not-include/:id', NotIncludeController.updateNotInclude);
+router.delete('/not-include/:id', NotIncludeController.deleteNotInclude);
 
 module.exports = router;

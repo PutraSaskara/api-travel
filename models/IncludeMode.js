@@ -12,15 +12,7 @@ const Include = db.define('included', {
     },
     include3: {
         type: DataTypes.STRING,
-    },
-    // tourId: {
-    //     type: DataTypes.INTEGER, // Assuming the primary key of the Tour model is of type INTEGER
-    //     allowNull: false,
-    //     references: {
-    //         model: Tour,
-    //         key: 'id' // Assuming the primary key of the Tour model is named 'id'
-    //     }
-    // }
+    }
 }, {
     freezeTableName: true
 });
@@ -28,5 +20,7 @@ const Include = db.define('included', {
 (async () => {
     await db.sync();
 })();
-// Include.belongsTo(Tour, { foreignKey: 'tourId' });
+Include.associate = () => {
+    Include.belongsTo(Tour, { foreignKey: 'tourId' });
+}
 module.exports = Include;

@@ -1,13 +1,14 @@
 const Plan = require("../models/PlanModel");
+const Tour = require('../models/TourModel');
 
-// Get all plan
-exports.getPlan = async (req, res) => {
+// Get all plans
+exports.getPlans = async (req, res) => {
     try {
-        const plan = await Plan.findAll();
-        res.status(200).json(plan);
+        const plans = await Plan.findAll();
+        res.status(200).json(plans);
     } catch (error) {
-        console.error("Error getting plan:", error.message);
-        res.status(500).json({ error: "Could not retrieve plan" });
+        console.error("Error getting plans:", error.message);
+        res.status(500).json({ error: "Could not retrieve plans" });
     }
 };
 
@@ -16,7 +17,7 @@ exports.getPlanById = async (req, res) => {
     try {
         const plan = await Plan.findByPk(req.params.id);
         if (!plan) {
-            return res.status(404).json({ error: "plan not found" });
+            return res.status(404).json({ error: "Plan not found" });
         }
         res.status(200).json(plan);
     } catch (error) {
@@ -28,38 +29,84 @@ exports.getPlanById = async (req, res) => {
 // Create a new plan
 exports.createPlan = async (req, res) => {
     try {
-        await Plan.create(req.body);
-        res.status(201).json({ message: "plan created successfully" });
+        // Extract necessary data from request body
+        const { tourId, title1, description1, title2, description2, title3, description3, 
+                title4, description4, title5, description5, title6, description6, 
+                title7, description7, title8, description8, title9, description9 } = req.body;
+
+        // Check if a plan with the same tourId already exists
+        const existingPlan = await Plan.findOne({ where: { tourId } });
+        if (existingPlan) {
+            return res.status(400).json({ error: 'A plan with the same tourId already exists' });
+        }
+
+        // Check if the associated tour exists
+        const tourInstance = await Tour.findByPk(tourId);
+        if (!tourInstance) {
+            return res.status(404).json({ error: 'Tour not found' });
+        }
+
+        // Create the plan and associate it with the tour
+        const planInstance = await Plan.create({
+            title1,
+            description1,
+            title2,
+            description2,
+            title3,
+            description3,
+            title4,
+            description4,
+            title5,
+            description5,
+            title6,
+            description6,
+            title7,
+            description7,
+            title8,
+            description8,
+            title9,
+            description9,
+            tourId: tourInstance.id // Set the foreign key to the id of the associated Tour
+        });
+
+        return res.status(201).json({ message: 'Plan created successfully', plan: planInstance });
     } catch (error) {
-        console.error("Error creating plan:", error.message);
-        res.status(400).json({ error: "Could not create plan" });
+        console.error('Error creating plan:', error);
+        return res.status(500).json({ error: 'Internal server error' });
     }
 };
+
 
 // Update an existing plan
 exports.updatePlan = async (req, res) => {
     try {
         const { id } = req.params;
-        const [updatedRows] = await Plan.update(req.body, { where: { id } });
-        if (updatedRows === 0) {
-            return res.status(404).json({ error: "plan not found" });
+        const plan = await Plan.findByPk(id);
+        if (!plan) {
+            return res.status(404).json({ error: "Plan not found" });
         }
-        res.status(200).json({ message: "plan updated successfully" });
+
+        // Partially update the plan with the fields provided in the request body
+        await plan.update(req.body);
+
+        res.status(200).json({ message: "Plan updated successfully" });
     } catch (error) {
         console.error("Error updating plan:", error.message);
         res.status(400).json({ error: "Could not update plan" });
     }
 };
 
-// Delete an plan
+
+
+// Delete a plan
 exports.deletePlan = async (req, res) => {
     try {
         const { id } = req.params;
         const deletedRowCount = await Plan.destroy({ where: { id } });
         if (deletedRowCount === 0) {
-            return res.status(404).json({ error: "plan not found" });
+            return res.status(404).json({ error: "Plan not found" });
         }
-        res.status(200).json({ message: "plan deleted successfully" });
+        res.status(200).json({ message: "Plan deleted successfully" });
     } catch (error) {
         console.error("Error deleting plan:", error.message);
         res.status(500).json({ error: "Could not delete plan" });

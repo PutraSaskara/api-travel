@@ -1,6 +1,5 @@
-const { Sequelize } = require("sequelize");
+const { Sequelize, DataTypes } = require("sequelize");
 const db = require("../config/Database.js");
-
 
 const Plan = require('../models/PlanModel')
 const Include = require('../models/IncludeMode')
@@ -9,8 +8,6 @@ const Image = require('../models/ImageModel')
 const Detail = require('../models/DetailModel.js')
 const Description = require('../models/DescriptionModel.js')
 const Cancellation = require('../models/CancellationModel.js')
-
-const {DataTypes} = Sequelize;
 
 const Tour = db.define('tour', {
     title: {
@@ -29,13 +26,12 @@ const Tour = db.define('tour', {
     await db.sync();
 })();
 
-
-Tour.hasOne(Detail);
-Tour.hasOne(Plan, { foreignKey: 'tourId' });
-Tour.hasOne(Description, { foreignKey: 'tourId' });
-Tour.hasOne(Include, { foreignKey: 'tourId' });
-Tour.hasOne(NotInclude, { foreignKey: 'tourId' });
-Tour.hasOne(Cancellation, { foreignKey: 'tourId' });
-Tour.hasOne(Image, { foreignKey: 'tourId' });
+Tour.hasOne(Detail, { onDelete: 'CASCADE' });
+Tour.hasOne(Plan, { foreignKey: 'tourId', onDelete: 'CASCADE' });
+Tour.hasOne(Description, { foreignKey: 'tourId', onDelete: 'CASCADE' });
+Tour.hasOne(Include, { foreignKey: 'tourId', onDelete: 'CASCADE' });
+Tour.hasOne(NotInclude, { foreignKey: 'tourId', onDelete: 'CASCADE' });
+Tour.hasOne(Cancellation, { foreignKey: 'tourId', onDelete: 'CASCADE' });
+Tour.hasOne(Image, { foreignKey: 'tourId', onDelete: 'CASCADE' });
 
 module.exports = Tour;

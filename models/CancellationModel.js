@@ -11,15 +11,7 @@ const Cancellation = db.define('cancellation', {
     },
     cancel2: {
         type: DataTypes.STRING,
-    },
-    // tourId: {
-    //     type: DataTypes.INTEGER, // Assuming the primary key of the Tour model is of type INTEGER
-    //     allowNull: false,
-    //     references: {
-    //         model: Tour,
-    //         key: 'id' // Assuming the primary key of the Tour model is named 'id'
-    //     }
-    // }
+    }
 }, {
     freezeTableName: true
 });
@@ -27,6 +19,9 @@ const Cancellation = db.define('cancellation', {
 (async () => {
     await db.sync();
 })();
-// Cancellation.belongsTo(Tour, { foreignKey: 'tourId' });
+
+Cancellation.associate = () => {
+    Cancellation.belongsTo(Tour, { foreignKey: 'tourId' });
+}
 
 module.exports = Cancellation;

@@ -13,15 +13,7 @@ const NotInclude = db.define('not_included', {
     },
     notinclude3: {
         type: DataTypes.STRING,
-    },
-    // tourId: {
-    //     type: DataTypes.INTEGER, // Assuming the primary key of the Tour model is of type INTEGER
-    //     allowNull: false,
-    //     references: {
-    //         model: Tour,
-    //         key: 'id' // Assuming the primary key of the Tour model is named 'id'
-    //     }
-    // }
+    }
 }, {
     freezeTableName: true
 });
@@ -30,6 +22,8 @@ const NotInclude = db.define('not_included', {
     await db.sync();
 })();
 
-// NotInclude.belongsTo(Tour, { foreignKey: 'tourId' });
+NotInclude.associate = () => {
+    NotInclude.belongsTo(Tour, { foreignKey: 'tourId' });
+}
 
 module.exports = NotInclude;

@@ -6,10 +6,10 @@ const PlanController = require('../controllers/PlanController')
 
 const router = express.Router();
 
-router.get('/plan', PlanController.getPlan);
+router.get('/plan', PlanController.getPlans);
 router.get('/plan/:id', PlanController.getPlanById);
 router.post('/plan', PlanController.createPlan);
-router.patch('/plan', PlanController.updatePlan);
-router.delete('/plan', PlanController.deletePlan);
+router.patch('/plan/:id', PlanController.updatePlan);
+router.delete('/plan/:id', PlanController.deletePlan);
 
 module.exports = router;

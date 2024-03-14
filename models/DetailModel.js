@@ -49,7 +49,7 @@ const Detail = db.define('tour_detail', {
     await db.sync();
 })();
 Detail.associate = () => {
-    Detail.belongsTo(Tour);
+    Detail.belongsTo(Tour, { foreignKey: 'tourId' });
 }
 
 module.exports = Detail;

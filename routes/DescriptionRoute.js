@@ -6,10 +6,10 @@ const DescriptionController = require('../controllers/DescriptionController')
 
 const router = express.Router();
 
-router.get('/desc', DescriptionController.getDesc);
-router.get('/desc/:id', DescriptionController.getDescById);
-router.post('/desc', DescriptionController.createDesc);
-router.patch('/desc', DescriptionController.updateDesc);
-router.delete('/desc', DescriptionController.deleteDesc);
+router.get('/desc', DescriptionController.getDescriptions);
+router.get('/desc/:id', DescriptionController.getDescriptionById);
+router.post('/desc', DescriptionController.createDescription);
+router.patch('/desc/:id', DescriptionController.updateDescription);
+router.delete('/desc/:id', DescriptionController.deleteDescription);
 
 module.exports = router;

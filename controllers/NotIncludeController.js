@@ -11,7 +11,7 @@ exports.getNotInclude = async (req, res) => {
     }
 };
 
-// Get include by ID
+// Get notInclude by ID
 exports.getNotIncludeById = async (req, res) => {
     try {
         const notInclude = await NotInclude.findByPk(req.params.id);
@@ -25,43 +25,64 @@ exports.getNotIncludeById = async (req, res) => {
     }
 };
 
-// Create a new include
+// Create a new notInclude
 exports.createNotInclude = async (req, res) => {
     try {
-        await NotInclude.create(req.body);
-        res.status(201).json({ message: "notInclude created successfully" });
+        const { tourId, notinclude1, notinclude2, notinclude3 } = req.body;
+
+        // Check if a NotInclude with the same tourId already exists
+        const existingNotInclude = await NotInclude.findOne({ where: { tourId } });
+        if (existingNotInclude) {
+            return res.status(400).json({ error: "NotInclude with the same tourId already exists" });
+        }
+
+        await NotInclude.create({ tourId, notinclude1, notinclude2, notinclude3 });
+        res.status(201).json({ message: "NotInclude created successfully" });
     } catch (error) {
-        console.error("Error creating notInclude:", error.message);
-        res.status(400).json({ error: "Could not create notInclude" });
+        console.error("Error creating NotInclude:", error.message);
+        res.status(400).json({ error: "Could not create NotInclude" });
     }
 };
 
-// Update an existing include
+// Update an existing notInclude
 exports.updateNotInclude = async (req, res) => {
     try {
         const { id } = req.params;
-        const [updatedRows] = await NotInclude.update(req.body, { where: { id } });
-        if (updatedRows === 0) {
-            return res.status(404).json({ error: "notInclude not found" });
+        const { tourId, notinclude1, notinclude2, notinclude3 } = req.body;
+
+        // Check if a NotInclude with the same tourId already exists
+        const existingNotInclude = await NotInclude.findOne({ where: { tourId } });
+        if (existingNotInclude && existingNotInclude.id !== id) {
+            return res.status(400).json({ error: "NotInclude with the same tourId already exists" });
         }
-        res.status(200).json({ message: "notInclude updated successfully" });
+
+        const [updatedRows] = await NotInclude.update(
+            { tourId, notinclude1, notinclude2, notinclude3 },
+            { where: { id } }
+        );
+
+        if (updatedRows === 0) {
+            return res.status(404).json({ error: "NotInclude not found" });
+        }
+
+        res.status(200).json({ message: "NotInclude updated successfully" });
     } catch (error) {
-        console.error("Error updating notInclude:", error.message);
-        res.status(400).json({ error: "Could not update notInclude" });
+        console.error("Error updating NotInclude:", error.message);
+        res.status(400).json({ error: "Could not update NotInclude" });
     }
 };
 
-// Delete an include
+// Delete a notInclude
 exports.deleteNotInclude = async (req, res) => {
     try {
         const { id } = req.params;
         const deletedRowCount = await NotInclude.destroy({ where: { id } });
         if (deletedRowCount === 0) {
-            return res.status(404).json({ error: "notInclude not found" });
+            return res.status(404).json({ error: "NotInclude not found" });
         }
-        res.status(200).json({ message: "notInclude deleted successfully" });
+        res.status(200).json({ message: "NotInclude deleted successfully" });
     } catch (error) {
-        console.error("Error deleting notInclude:", error.message);
-        res.status(500).json({ error: "Could not delete notInclude" });
+        console.error("Error deleting NotInclude:", error.message);
+        res.status(500).json({ error: "Could not delete NotInclude" });
     }
 };

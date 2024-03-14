@@ -6,7 +6,8 @@ const Image = require('../models/ImageModel.js')
 const Detail = require('../models/DetailModel.js')
 const Description = require('../models/DescriptionModel.js')
 const Cancellation = require('../models/CancellationModel.js')
-
+const fs = require('fs');
+const path = require('path');   
 
 exports.getTours = async function (req, res) {
     try {
@@ -72,20 +73,82 @@ exports.updateTour = async function (req, res) {
     }
 };
 
+// exports.deleteTour = async function (req, res) {
+//     try {
+//         const { id } = req.params;
+//         const tour = await Tour.findByPk(id);
+//         if (!tour) {
+//             return res.status(404).json({ error: "Tour not found" });
+//         }
+//         await tour.destroy();
+//         res.status(200).json({ message: "Tour deleted successfully" });
+//     } catch (error) {
+//         console.error("Error deleting tour:", error.message);
+//         res.status(500).json({ error: "Could not delete tour" });
+//     }
+// };
+
+
+
+
+
 exports.deleteTour = async function (req, res) {
     try {
         const { id } = req.params;
+
+        // Find the tour to be deleted
         const tour = await Tour.findByPk(id);
+
         if (!tour) {
             return res.status(404).json({ error: "Tour not found" });
         }
+
+        // Get the tourId
+        const tourId = tour.id;
+
+        // Find and delete all associated images
+        const images = await Image.findAll({ where: { tourId } });
+        images.forEach(async (image) => {
+            // Delete the associated files in the public/uploads directory
+            if (image.image1) {
+                const imagePath1 = path.join(__dirname, '../public/uploads', image.image1);
+                fs.unlinkSync(imagePath1);
+            }
+            if (image.image2) {
+                const imagePath2 = path.join(__dirname, '../public/uploads', image.image2);
+                fs.unlinkSync(imagePath2);
+            }
+            if (image.image3) {
+                const imagePath3 = path.join(__dirname, '../public/uploads', image.image3);
+                fs.unlinkSync(imagePath3);
+            }
+        });
+
+        // Delete all other associated records with the same tourId
+        await Promise.all([
+            Plan.destroy({ where: { tourId } }),
+            Include.destroy({ where: { tourId } }),
+            NotInclude.destroy({ where: { tourId } }),
+            Detail.destroy({ where: { tourId } }),
+            Description.destroy({ where: { tourId } }),
+            Cancellation.destroy({ where: { tourId } })
+            // Add other associations here
+        ]);
+
+        // Delete the tour
         await tour.destroy();
-        res.status(200).json({ message: "Tour deleted successfully" });
+
+        res.status(200).json({ message: "Tour, associated records, and images deleted successfully" });
     } catch (error) {
         console.error("Error deleting tour:", error.message);
-        res.status(500).json({ error: "Could not delete tour" });
+        res.status(500).json({ error: error.message });
     }
 };
+
+
+
+
+
 
 exports.createTour = async function (req, res) {
     try {

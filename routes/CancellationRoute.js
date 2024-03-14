@@ -5,10 +5,10 @@ const CancellationController = require('../controllers/CancellationController')
 
 const router = express.Router();
 
-router.get('/cancellation', CancellationController.getCancel);
-router.get('/cancellation/:id', CancellationController.getCancelById);
-router.post('/cancellation', CancellationController.createCancel);
-router.patch('/cancellation', CancellationController.updateCancel);
-router.delete('/cancellation', CancellationController.deleteCancel);
+router.get('/cancellation', CancellationController.getCancellations);
+router.get('/cancellation/:id', CancellationController.getCancellationById);
+router.post('/cancellation', CancellationController.createCancellation);
+router.patch('/cancellation/:id', CancellationController.updateCancellation);
+router.delete('/cancellation/:id', CancellationController.deleteCancellation);
 
 module.exports = router;

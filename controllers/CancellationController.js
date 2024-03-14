@@ -1,67 +1,93 @@
-const Cancel = require("../models/CancellationModel");
+const Cancellation = require("../models/CancellationModel");
+const Tour = require('../models/TourModel');
 
-// Get all cancel;
-exports.getCancel = async (req, res) => {
+// Get all cancellations
+exports.getCancellations = async (req, res) => {
     try {
-        const cancel = await Cancel.findAll();
-        res.status(200).json(cancel);
+        const cancellations = await Cancellation.findAll();
+        res.status(200).json(cancellations);
     } catch (error) {
-        console.error("Error getting Cancellation:", error.message);
-        res.status(500).json({ error: "Could not retrieve Cancellation" });
+        console.error("Error getting cancellations:", error.message);
+        res.status(500).json({ error: "Could not retrieve cancellations" });
     }
 };
 
-// Get cancel by ID
-exports.getCancelById = async (req, res) => {
+// Get cancellation by ID
+exports.getCancellationById = async (req, res) => {
     try {
-        const cancel = await Cancel.findByPk(req.params.id);
-        if (!cancel) {
+        const cancellation = await Cancellation.findByPk(req.params.id);
+        if (!cancellation) {
             return res.status(404).json({ error: "Cancellation not found" });
         }
-        res.status(200).json(cancel);
+        res.status(200).json(cancellation);
     } catch (error) {
-        console.error("Error getting cancel by ID:", error.message);
-        res.status(500).json({ error: "Could not retrieve Cancellation" });
+        console.error("Error getting cancellation by ID:", error.message);
+        res.status(500).json({ error: "Could not retrieve cancellation" });
     }
 };
 
-// Create a new cancel
-exports.createCancel = async (req, res) => {
+// Create a new cancellation
+exports.createCancellation = async (req, res) => {
     try {
-        await Cancel.create(req.body);
-        res.status(201).json({ message: "Cancellation created successfully" });
+        // Extract necessary data from request body
+        const { tourId, cancel1, cancel2 } = req.body;
+
+        // Check if a cancellation with the same tourId already exists
+        const existingCancellation = await Cancellation.findOne({ where: { tourId } });
+        if (existingCancellation) {
+            return res.status(400).json({ error: 'A cancellation with the same tourId already exists' });
+        }
+
+        // Check if the associated tour exists
+        const tourInstance = await Tour.findByPk(tourId);
+        if (!tourInstance) {
+            return res.status(404).json({ error: 'Tour not found' });
+        }
+
+        // Create the cancellation and associate it with the tour
+        await Cancellation.create({
+            tourId,
+            cancel1,
+            cancel2,
+        });
+
+        return res.status(201).json({ message: 'Cancellation created successfully' });
     } catch (error) {
-        console.error("Error creating Cancellation:", error.message);
-        res.status(400).json({ error: "Could not create Cancellation" });
+        console.error('Error creating cancellation:', error);
+        return res.status(500).json({ error: 'Internal server error' });
     }
 };
 
-// Update an existing cancel
-exports.updateCancel = async (req, res) => {
+// Update an existing cancellation
+exports.updateCancellation = async (req, res) => {
     try {
         const { id } = req.params;
-        const [updatedRows] = await Cancel.update(req.body, { where: { id } });
-        if (updatedRows === 0) {
+        const cancellation = await Cancellation.findByPk(id);
+        if (!cancellation) {
             return res.status(404).json({ error: "Cancellation not found" });
         }
+
+        // Update the cancellation
+        await cancellation.update(req.body);
+
         res.status(200).json({ message: "Cancellation updated successfully" });
     } catch (error) {
-        console.error("Error updating Cancellation:", error.message);
-        res.status(400).json({ error: "Could not update Cancellation" });
+        console.error("Error updating cancellation:", error.message);
+        res.status(400).json({ error: "Could not update cancellation" });
     }
 };
 
-// Delete an cancel
-exports.deleteCancel = async (req, res) => {
+// Delete a cancellation
+exports.deleteCancellation = async (req, res) => {
     try {
         const { id } = req.params;
-        const deletedRowCount = await Cancel.destroy({ where: { id } });
+        const deletedRowCount = await Cancellation.destroy({ where: { id } });
         if (deletedRowCount === 0) {
             return res.status(404).json({ error: "Cancellation not found" });
         }
         res.status(200).json({ message: "Cancellation deleted successfully" });
     } catch (error) {
-        console.error("Error deleting Cancellation:", error.message);
-        res.status(500).json({ error: "Could not delete Cancellation" });
+        console.error("Error deleting cancellation:", error.message);
+        res.status(500).json({ error: "Could not delete cancellation" });
     }
 };
