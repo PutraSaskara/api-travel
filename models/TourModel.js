@@ -15,9 +15,25 @@ const Tour = db.define('tour', {
         type: DataTypes.STRING,
         allowNull: false
     },
-    price: {
+    price1: {
         type: DataTypes.STRING,
         allowNull: false,
+    },
+    pricenote1: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    price2: {
+        type: DataTypes.STRING,
+    },
+    pricenote2: {
+        type: DataTypes.STRING,
+    },
+    price3: {
+        type: DataTypes.STRING,
+    },
+    pricenote3: {
+        type: DataTypes.STRING,
     },
     slug: {
         type: DataTypes.STRING,
