@@ -4,9 +4,24 @@ const BlogImage = require('../models/BlogImageModel.js');
 const fs = require('fs');
 const path = require('path');
 
+// exports.getBlogs = async function (req, res) {
+//     try {
+//         const blogs = await SingleBlog.findAll();
+//         res.status(200).json(blogs);
+//     } catch (error) {
+//         console.error("Error getting blogs:", error.message);
+//         res.status(500).json({ error: "Could not retrieve blogs" });
+//     }    
+// };
+
 exports.getBlogs = async function (req, res) {
     try {
-        const blogs = await SingleBlog.findAll();
+        const blogs = await SingleBlog.findAll({
+            include: [
+                { model: BlogParagraf },
+                { model: BlogImage },
+            ]
+        });
         res.status(200).json(blogs);
     } catch (error) {
         console.error("Error getting blogs:", error.message);

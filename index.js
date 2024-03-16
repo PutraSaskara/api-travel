@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-// const authRoute = require('./routes/authRoutes.js'); // Import authentication route
+const authRoute = require('./routes/authRoutes.js'); // Import authentication route
 const TourRoute = require('./routes/TourRoute.js');
 const DescriptionRoute = require('./routes/DescriptionRoute.js');
 const PlanRoute = require('./routes/PlanRoute.js');
@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(express.static('public'));
 
 // Use authentication route
-// app.use(authRoute);
+app.use(authRoute);
 
 // Use other routes
 app.use(TourRoute);

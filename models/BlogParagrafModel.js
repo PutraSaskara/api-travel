@@ -15,10 +15,16 @@ const BlogParagraf = db.define('blog_paragraf', {
     paragraf2: {
         type: DataTypes.STRING,
     },
+    link2: {
+        type: DataTypes.STRING,
+    },
     titleparagraf3: {
         type: DataTypes.STRING,
     },
     paragraf3: {
+        type: DataTypes.STRING,
+    },
+    link3: {
         type: DataTypes.STRING,
     },
     titleparagraf4: {
@@ -27,10 +33,16 @@ const BlogParagraf = db.define('blog_paragraf', {
     paragraf4: {
         type: DataTypes.STRING,
     },
+    link4: {
+        type: DataTypes.STRING,
+    },
     titleparagraf5: {
         type: DataTypes.STRING,
     },
     paragraf5: {
+        type: DataTypes.STRING,
+    },
+    link5: {
         type: DataTypes.STRING,
     },
     titleparagraf6: {
@@ -39,10 +51,16 @@ const BlogParagraf = db.define('blog_paragraf', {
     paragraf6: {
         type: DataTypes.STRING,
     },
+    link6: {
+        type: DataTypes.STRING,
+    },
     titleparagraf7: {
         type: DataTypes.STRING,
     },
     paragraf7: {
+        type: DataTypes.STRING,
+    },
+    link7: {
         type: DataTypes.STRING,
     },
     Conclusion: {

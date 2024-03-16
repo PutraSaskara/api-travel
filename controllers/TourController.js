@@ -9,15 +9,35 @@ const Cancellation = require('../models/CancellationModel.js')
 const fs = require('fs');
 const path = require('path');   
 
+// exports.getTours = async function (req, res) {
+//     try {
+//         const tours = await Tour.findAll();
+//         res.status(200).json(tours);
+//     } catch (error) {
+//         console.error("Error getting tours:", error.message);
+//         res.status(500).json({ error: "Could not retrieve tours" });
+//     }
+// };
+
 exports.getTours = async function (req, res) {
     try {
-        const tours = await Tour.findAll();
+        const tours = await Tour.findAll({
+            include: [
+                { model: Detail },
+                { model: Plan },
+                { model: Description },
+                { model: Include },
+                { model: NotInclude },
+                { model: Cancellation },
+                { model: Image },
+            ]
+        });
         res.status(200).json(tours);
     } catch (error) {
         console.error("Error getting tours:", error.message);
         res.status(500).json({ error: "Could not retrieve tours" });
     }
-};
+}; 
 
 exports.getTourById = async function (req, res) {
     try {

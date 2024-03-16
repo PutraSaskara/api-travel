@@ -65,19 +65,70 @@ exports.createImage = async (req, res) => {
         res.status(201).json(newImages);
     } catch (error) {
         console.error("Error creating images:", error.message);
+        // Rollback file uploads if any
+        req.files.forEach(file => {
+            fs.unlinkSync(file.path); // Delete the file from the uploads folder
+        });
         res.status(400).json({ error: error.message });
     }
 };
 
 // Update an existing image
+// Update image function
+
 exports.updateImage = async (req, res) => {
     try {
-        // Your update image logic here
+        const { tourId } = req.params;
+
+        // Find the image by tourId
+        const existingImage = await Image.findOne({ where: { tourId } });
+
+        if (!existingImage) {
+            throw new Error("Image for this tour does not exist");
+        }
+
+        // Check if new files are uploaded
+        if (!req.files || req.files.length === 0) {
+            throw new Error("Please upload at least one image");
+        }
+
+        // Delete existing files
+        const imageFields = ['image1', 'image2', 'image3'];
+        imageFields.forEach((field, index) => {
+            if (req.files[index]) {
+                const filePath = `public/uploads/${existingImage[field]}`;
+                fs.unlinkSync(filePath);
+            }
+        });
+
+        // Update image details
+        const updatedImages = await existingImage.update({
+            image1: req.files[0] ? req.files[0].filename : existingImage.image1,
+            imageUrl1: req.files[0] ? `${baseURL}/uploads/${req.files[0].filename}` : existingImage.imageUrl1,
+            image2: req.files[1] ? req.files[1].filename : existingImage.image2,
+            imageUrl2: req.files[1] ? `${baseURL}/uploads/${req.files[1].filename}` : existingImage.imageUrl2,
+            image3: req.files[2] ? req.files[2].filename : existingImage.image3,
+            imageUrl3: req.files[2] ? `${baseURL}/uploads/${req.files[2].filename}` : existingImage.imageUrl3
+        });
+
+        res.status(200).json(updatedImages);
     } catch (error) {
-        console.error("Error updating image:", error.message);
+        console.error("Error updating images:", error.message);
+        // Rollback file uploads if any
+        req.files.forEach(file => {
+            fs.unlinkSync(file.path); // Delete the file from the uploads folder
+        });
         res.status(400).json({ error: error.message });
     }
 };
+
+
+
+
+
+
+
+
 
 // Delete an image
 exports.deleteImage = async (req, res) => {

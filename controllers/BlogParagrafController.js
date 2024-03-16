@@ -30,7 +30,11 @@ exports.getBlogParagraphById = async (req, res) => {
 exports.createBlogParagraph = async (req, res) => {
     try {
         // Extract necessary data from request body
-        const { blogId, paragraf1, titleparagraf2, paragraf2, titleparagraf3, paragraf3, titleparagraf4, paragraf4, titleparagraf5, paragraf5, titleparagraf6, paragraf6, titleparagraf7, paragraf7, Conclusion } = req.body;
+        const { blogId, paragraf1, titleparagraf2, paragraf2, link2, 
+                titleparagraf3, paragraf3, link3, titleparagraf4, 
+                paragraf4, link4, titleparagraf5, paragraf5, link5, 
+                titleparagraf6, paragraf6, link6, titleparagraf7, 
+                paragraf7, link7, Conclusion } = req.body;
 
         // Check if a blog paragraph with the same blogId already exists
         const existingBlogParagraph = await BlogParagraf.findOne({ where: { blogId } });
@@ -50,16 +54,22 @@ exports.createBlogParagraph = async (req, res) => {
             paragraf1,
             titleparagraf2,
             paragraf2,
+            link2,
             titleparagraf3,
             paragraf3,
+            link3,
             titleparagraf4,
             paragraf4,
+            link4,
             titleparagraf5,
             paragraf5,
+            link5,
             titleparagraf6,
             paragraf6,
+            link6,
             titleparagraf7,
             paragraf7,
+            link7,
             Conclusion
         });
 

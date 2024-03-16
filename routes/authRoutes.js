@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
 const router = express.Router();
 
 // const secretKey = '121314'; // This should be a secure, randomly generated string
-const secretKey = require('../secret/secret');
+const secretKey = require('../secret/secret.js');
 
 // Define your single user
 const user = {
