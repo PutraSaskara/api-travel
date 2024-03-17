@@ -8,6 +8,7 @@ const Description = require("../models/DescriptionModel.js");
 const Cancellation = require("../models/CancellationModel.js");
 const fs = require("fs");
 const path = require("path");
+const { validationResult } = require('express-validator');
 
 // exports.getTours = async function (req, res) {
 //     try {
@@ -67,6 +68,41 @@ exports.getTourById = async function (req, res) {
   }
 };
 
+// exports.updateTour = async function (req, res) {
+//   try {
+//     const { id } = req.params;
+//     let tour = await Tour.findByPk(id);
+//     if (!tour) {
+//       return res.status(404).json({ error: "Tour not found" });
+//     }
+//     const { 
+//         title,
+//         price1,
+//         pricenote1,
+//         price2,
+//         pricenote2,
+//         price3,
+//         pricenote3, } = req.body;
+
+//     await tour.update({
+//         title,
+//         price1,
+//         pricenote1,
+//         price2,
+//         pricenote2,
+//         price3,
+//         pricenote3,
+//       // Add other fields to update
+//     });
+
+//     tour = await Tour.findByPk(id);
+//     res.status(200).json(tour);
+//   } catch (error) {
+//     console.error("Error updating tour:", error.message);
+//     res.status(400).json({ error: "Could not update tour" });
+//   }
+// };
+
 exports.updateTour = async function (req, res) {
   try {
     const { id } = req.params;
@@ -98,9 +134,20 @@ exports.updateTour = async function (req, res) {
     res.status(200).json(tour);
   } catch (error) {
     console.error("Error updating tour:", error.message);
-    res.status(400).json({ error: "Could not update tour" });
+    if (error.name === 'SequelizeValidationError') {
+      // Handle validation errors
+      const errors = error.errors.map(err => ({ field: err.path, message: err.message }));
+      res.status(400).json({ error: "Validation failed", errors });
+    } else if (error.name === 'SequelizeUniqueConstraintError') {
+      // Handle unique constraint violation errors
+      res.status(400).json({ error: "Unique constraint violation", message: error.message });
+    } else {
+      // Handle other errors
+      res.status(500).json({ error: "Internal server error" });
+    }
   }
 };
+
 
 // exports.deleteTour = async function (req, res) {
 //     try {
@@ -186,8 +233,44 @@ exports.deleteTour = async function (req, res) {
   }
 };
 
+// exports.createTour = async function (req, res) {
+//   try {
+//     const {
+//       title,
+//       price1,
+//       pricenote1,
+//       price2,
+//       pricenote2,
+//       price3,
+//       pricenote3,
+//     } = req.body;
+//     const newTour = await Tour.create({
+//       title,
+//       price1,
+//       pricenote1,
+//       price2,
+//       pricenote2,
+//       price3,
+//       pricenote3,
+//       // Add other fields here
+//     });
+//     res.status(201).json(newTour);
+//   } catch (error) {
+//     console.error("Error creating tour:", error.message);
+//     res.status(400).json({ error: error.message });
+//   }
+// };
+
+
+
 exports.createTour = async function (req, res) {
   try {
+    // Check for validation errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
     const {
       title,
       price1,
@@ -197,6 +280,20 @@ exports.createTour = async function (req, res) {
       price3,
       pricenote3,
     } = req.body;
+
+    // Example: Check if title is provided
+    if (!title) {
+      return res.status(400).json({ error: "Title is required" });
+    }
+
+    // Example: Check if price1 is provided
+    if (!price1) {
+      return res.status(400).json({ error: "Price1 is required" });
+    }
+
+    // Example: Add more specific validation checks for other fields
+
+    // Create the tour
     const newTour = await Tour.create({
       title,
       price1,

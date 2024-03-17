@@ -28,6 +28,42 @@ exports.getIncludeById = async (req, res) => {
 
 // Create a new include
 // Create a new include
+// exports.createInclude = async (req, res) => {
+//     try {
+//         // Extract necessary data from request body
+//         const { tourId, include1, include2, include3 } = req.body;
+
+//         // Check if the associated tour exists
+//         const tourInstance = await Tour.findByPk(tourId);
+//         if (!tourInstance) {
+//             return res.status(404).json({ error: 'Tour not found' });
+//         }
+
+//         // Check if an include with the same tourId already exists
+//         const existingInclude = await Include.findOne({ where: { tourId } });
+//         if (existingInclude) {
+//             return res.status(400).json({ error: 'Include with the same tourId already exists' });
+//         }
+
+//         // Create the include and associate it with the tour
+//         await Include.create({
+//             tourId,
+//             include1,
+//             include2,
+//             include3,
+//         });
+
+//         return res.status(201).json({ message: 'Include created successfully' });
+//     } catch (error) {
+//         console.error('Error creating include:', error);
+//         return res.status(500).json({ error: 'Internal server error' });
+//     }
+// };
+
+
+// Update an existing include
+
+
 exports.createInclude = async (req, res) => {
     try {
         // Extract necessary data from request body
@@ -46,22 +82,50 @@ exports.createInclude = async (req, res) => {
         }
 
         // Create the include and associate it with the tour
-        await Include.create({
+        const newInclude = await Include.create({
             tourId,
             include1,
             include2,
             include3,
         });
 
-        return res.status(201).json({ message: 'Include created successfully' });
+        return res.status(201).json({ message: 'Include created successfully', include: newInclude });
     } catch (error) {
         console.error('Error creating include:', error);
-        return res.status(500).json({ error: 'Internal server error' });
+        if (error.name === 'SequelizeValidationError') {
+            // Handle validation errors
+            const errors = error.errors.map(err => ({ field: err.path, message: err.message }));
+            return res.status(400).json({ error: 'Validation failed', errors });
+        } else {
+            // Handle other errors
+            return res.status(500).json({ error: 'Internal server error' });
+        }
     }
 };
 
 
-// Update an existing include
+
+
+// exports.updateInclude = async (req, res) => {
+//     try {
+//         const { id } = req.params;
+//         const include = await Include.findByPk(id);
+//         if (!include) {
+//             return res.status(404).json({ error: "Include not found" });
+//         }
+
+//         // Update the include
+//         await include.update(req.body);
+
+//         res.status(200).json({ message: "Include updated successfully" });
+//     } catch (error) {
+//         console.error("Error updating include:", error.message);
+//         res.status(400).json({ error: "Could not update include" });
+//     }
+// };
+
+// Delete an include
+
 exports.updateInclude = async (req, res) => {
     try {
         const { id } = req.params;
@@ -76,11 +140,21 @@ exports.updateInclude = async (req, res) => {
         res.status(200).json({ message: "Include updated successfully" });
     } catch (error) {
         console.error("Error updating include:", error.message);
-        res.status(400).json({ error: "Could not update include" });
+        if (error.name === 'SequelizeValidationError') {
+            // Handle validation errors
+            const errors = error.errors.map(err => ({ field: err.path, message: err.message }));
+            return res.status(400).json({ error: 'Validation failed', errors });
+        } else {
+            // Handle other errors
+            return res.status(500).json({ error: 'Internal server error' });
+        }
     }
 };
 
-// Delete an include
+
+
+
+
 exports.deleteInclude = async (req, res) => {
     try {
         const { id } = req.params;

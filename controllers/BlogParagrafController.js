@@ -27,6 +27,61 @@ exports.getBlogParagraphById = async (req, res) => {
 };
 
 // Create a new blog paragraph
+// exports.createBlogParagraph = async (req, res) => {
+//     try {
+//         // Extract necessary data from request body
+//         const { blogId, paragraf1, titleparagraf2, paragraf2, link2, 
+//                 titleparagraf3, paragraf3, link3, titleparagraf4, 
+//                 paragraf4, link4, titleparagraf5, paragraf5, link5, 
+//                 titleparagraf6, paragraf6, link6, titleparagraf7, 
+//                 paragraf7, link7, Conclusion } = req.body;
+
+//         // Check if a blog paragraph with the same blogId already exists
+//         const existingBlogParagraph = await BlogParagraf.findOne({ where: { blogId } });
+//         if (existingBlogParagraph) {
+//             return res.status(400).json({ error: 'A blog paragraph with the same blogId already exists' });
+//         }
+
+//         // Check if the associated blog exists
+//         const blogInstance = await SingleBlog.findByPk(blogId);
+//         if (!blogInstance) {
+//             return res.status(404).json({ error: 'Blog not found' });
+//         }
+
+//         // Create the blog paragraph and associate it with the blog
+//         await BlogParagraf.create({
+//             blogId,
+//             paragraf1,
+//             titleparagraf2,
+//             paragraf2,
+//             link2,
+//             titleparagraf3,
+//             paragraf3,
+//             link3,
+//             titleparagraf4,
+//             paragraf4,
+//             link4,
+//             titleparagraf5,
+//             paragraf5,
+//             link5,
+//             titleparagraf6,
+//             paragraf6,
+//             link6,
+//             titleparagraf7,
+//             paragraf7,
+//             link7,
+//             Conclusion
+//         });
+
+//         return res.status(201).json({ message: 'Blog paragraph created successfully' });
+//     } catch (error) {
+//         console.error('Error creating blog paragraph:', error);
+//         return res.status(500).json({ error: 'Internal server error' });
+//     }
+// };
+
+
+
 exports.createBlogParagraph = async (req, res) => {
     try {
         // Extract necessary data from request body
@@ -36,16 +91,21 @@ exports.createBlogParagraph = async (req, res) => {
                 titleparagraf6, paragraf6, link6, titleparagraf7, 
                 paragraf7, link7, Conclusion } = req.body;
 
-        // Check if a blog paragraph with the same blogId already exists
-        const existingBlogParagraph = await BlogParagraf.findOne({ where: { blogId } });
-        if (existingBlogParagraph) {
-            return res.status(400).json({ error: 'A blog paragraph with the same blogId already exists' });
+        // Check if the blogId is provided
+        if (!blogId) {
+            return res.status(400).json({ error: 'BlogId is required' });
         }
 
         // Check if the associated blog exists
         const blogInstance = await SingleBlog.findByPk(blogId);
         if (!blogInstance) {
             return res.status(404).json({ error: 'Blog not found' });
+        }
+
+        // Check if a blog paragraph with the same blogId already exists
+        const existingBlogParagraph = await BlogParagraf.findOne({ where: { blogId } });
+        if (existingBlogParagraph) {
+            return res.status(400).json({ error: 'A blog paragraph with the same blogId already exists' });
         }
 
         // Create the blog paragraph and associate it with the blog
@@ -80,10 +140,38 @@ exports.createBlogParagraph = async (req, res) => {
     }
 };
 
+
 // Update an existing blog paragraph
+// exports.updateBlogParagraph = async (req, res) => {
+//     try {
+//         const { id } = req.params;
+//         const blogParagraph = await BlogParagraf.findByPk(id);
+//         if (!blogParagraph) {
+//             return res.status(404).json({ error: "Blog paragraph not found" });
+//         }
+
+//         // Update the blog paragraph
+//         await blogParagraph.update(req.body);
+
+//         res.status(200).json({ message: "Blog paragraph updated successfully" });
+//     } catch (error) {
+//         console.error("Error updating blog paragraph:", error.message);
+//         res.status(400).json({ error: "Could not update blog paragraph" });
+//     }
+// };
+
+// Delete a blog paragraph
+
 exports.updateBlogParagraph = async (req, res) => {
     try {
         const { id } = req.params;
+        
+        // Check if the id parameter is provided
+        if (!id) {
+            return res.status(400).json({ error: "Blog paragraph ID is required" });
+        }
+
+        // Find the blog paragraph by ID
         const blogParagraph = await BlogParagraf.findByPk(id);
         if (!blogParagraph) {
             return res.status(404).json({ error: "Blog paragraph not found" });
@@ -92,14 +180,15 @@ exports.updateBlogParagraph = async (req, res) => {
         // Update the blog paragraph
         await blogParagraph.update(req.body);
 
-        res.status(200).json({ message: "Blog paragraph updated successfully" });
+        return res.status(200).json({ message: "Blog paragraph updated successfully" });
     } catch (error) {
         console.error("Error updating blog paragraph:", error.message);
-        res.status(400).json({ error: "Could not update blog paragraph" });
+        return res.status(500).json({ error: "Internal server error" });
     }
 };
 
-// Delete a blog paragraph
+
+
 exports.deleteBlogParagraph = async (req, res) => {
     try {
         const { id } = req.params;

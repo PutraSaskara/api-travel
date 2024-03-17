@@ -15,13 +15,17 @@ function authenticateToken(req, res, next) {
 
     if (!token) {
         console.error('No token provided');
-        return res.sendStatus(401); // No token provided
+        return res.status(401).json({ error: 'No token provided' }); // No token provided
     }
 
     jwt.verify(token, secretKey, (err, user) => {
         if (err) {
             console.error('Token verification failed:', err.message);
-            return res.sendStatus(403); // Token is not valid
+            if (err.name === 'TokenExpiredError') {
+                return res.status(401).json({ error: 'Token has expired' }); // Token has expired
+            } else {
+                return res.status(403).json({ error: 'Token is not valid' }); // Token is not valid
+            }
         }
 
         // Log the user extracted from the token

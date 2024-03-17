@@ -27,6 +27,40 @@ exports.getDescriptionById = async (req, res) => {
 };
 
 // Create a new description
+// exports.createDescription = async (req, res) => {
+//     try {
+//         // Extract necessary data from request body
+//         const { tourId, paragraf1, paragraf2, paragraf3 } = req.body;
+
+//         // Check if a description with the same tourId already exists
+//         const existingDescription = await Description.findOne({ where: { tourId } });
+//         if (existingDescription) {
+//             return res.status(400).json({ error: 'A description with the same tourId already exists' });
+//         }
+
+//         // Check if the associated tour exists
+//         const tourInstance = await Tour.findByPk(tourId);
+//         if (!tourInstance) {
+//             return res.status(404).json({ error: 'Tour not found' });
+//         }
+
+//         // Create the description and associate it with the tour
+//         await Description.create({
+//             tourId,
+//             paragraf1,
+//             paragraf2,
+//             paragraf3,
+//         });
+
+//         return res.status(201).json({ message: 'Description created successfully' });
+//     } catch (error) {
+//         console.error('Error creating description:', error);
+//         return res.status(500).json({ error: 'Internal server error' });
+//     }
+// };
+
+// Update an existing description
+
 exports.createDescription = async (req, res) => {
     try {
         // Extract necessary data from request body
@@ -54,12 +88,34 @@ exports.createDescription = async (req, res) => {
 
         return res.status(201).json({ message: 'Description created successfully' });
     } catch (error) {
-        console.error('Error creating description:', error);
+        console.error('Error creating description:', error.message);
         return res.status(500).json({ error: 'Internal server error' });
     }
 };
 
-// Update an existing description
+
+
+
+// exports.updateDescription = async (req, res) => {
+//     try {
+//         const { id } = req.params;
+//         const description = await Description.findByPk(id);
+//         if (!description) {
+//             return res.status(404).json({ error: "Description not found" });
+//         }
+
+//         // Update the description
+//         await description.update(req.body);
+
+//         res.status(200).json({ message: "Description updated successfully" });
+//     } catch (error) {
+//         console.error("Error updating description:", error.message);
+//         res.status(400).json({ error: "Could not update description" });
+//     }
+// };
+
+// Delete a description
+
 exports.updateDescription = async (req, res) => {
     try {
         const { id } = req.params;
@@ -74,11 +130,18 @@ exports.updateDescription = async (req, res) => {
         res.status(200).json({ message: "Description updated successfully" });
     } catch (error) {
         console.error("Error updating description:", error.message);
-        res.status(400).json({ error: "Could not update description" });
+        if (error.name === 'SequelizeValidationError') {
+            return res.status(400).json({ error: error.message });
+        } else {
+            return res.status(500).json({ error: "Internal server error" });
+        }
     }
 };
 
-// Delete a description
+
+
+
+
 exports.deleteDescription = async (req, res) => {
     try {
         const { id } = req.params;

@@ -32,19 +32,61 @@ exports.getBlogImageById = async (req, res) => {
 };
 
 // Create a new blog image
+// exports.createBlogImage = async (req, res) => {
+//     try {
+//         if (!req.files || req.files.length !== 3) {
+//             throw new Error("Please upload three images");
+//         }
+
+//         const { blogId } = req.body;
+
+//         // Check if an image with the same blogId already exists
+//         const existingImage = await BlogImage.findOne({ where: { blogId } });
+
+//         if (existingImage) {
+//             throw new Error("Image for this blog already exists");
+//         }
+
+//         const images = req.files.map(file => ({
+//             filename: file.filename,
+//             url: `${baseURL}/uploads/${file.filename}`
+//         }));
+
+//         const newImages = await BlogImage.create({
+//             blogId,
+//             image1: images[0].filename,
+//             imageUrl1: images[0].url,
+//             image2: images[1].filename,
+//             imageUrl2: images[1].url,
+//             image3: images[2].filename,
+//             imageUrl3: images[2].url
+//         });
+
+//         res.status(201).json(newImages);
+//     } catch (error) {
+//         // Rollback file uploads if any
+//         req.files.forEach(file => {
+//             fs.unlinkSync(file.path); // Delete the file from the uploads folder
+//         });
+        
+//         console.error("Error creating blog images:", error.message);
+//         res.status(400).json({ error: error.message });
+//     }
+// };
+
 exports.createBlogImage = async (req, res) => {
     try {
+        // Check if files are uploaded and if there are exactly three files
         if (!req.files || req.files.length !== 3) {
-            throw new Error("Please upload three images");
+            throw new Error("Please upload exactly three images");
         }
 
         const { blogId } = req.body;
 
         // Check if an image with the same blogId already exists
         const existingImage = await BlogImage.findOne({ where: { blogId } });
-
         if (existingImage) {
-            throw new Error("Image for this blog already exists");
+            throw new Error("An image for this blog already exists");
         }
 
         const images = req.files.map(file => ({
@@ -52,6 +94,7 @@ exports.createBlogImage = async (req, res) => {
             url: `${baseURL}/uploads/${file.filename}`
         }));
 
+        // Create a new blog image entry
         const newImages = await BlogImage.create({
             blogId,
             image1: images[0].filename,
@@ -68,11 +111,12 @@ exports.createBlogImage = async (req, res) => {
         req.files.forEach(file => {
             fs.unlinkSync(file.path); // Delete the file from the uploads folder
         });
-        
+
         console.error("Error creating blog images:", error.message);
         res.status(400).json({ error: error.message });
     }
 };
+
 
 
 

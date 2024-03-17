@@ -52,6 +52,30 @@ exports.getBlogById = async function (req, res) {
     }
 };
 
+// exports.updateBlog = async function (req, res) {
+//     try {
+//         const { id } = req.params;
+//         let blog = await SingleBlog.findByPk(id);
+//         if (!blog) {
+//             return res.status(404).json({ error: "Blog not found" });
+//         }
+//         const { title, author } = req.body;
+
+//         await blog.update({
+//             title,
+//             author
+//             // Add other fields to update
+//         });
+
+//         blog = await SingleBlog.findByPk(id);
+//         res.status(200).json(blog);
+//     } catch (error) {
+//         console.error("Error updating blog:", error.message);
+//         res.status(400).json({ error: "Could not update blog" });
+//     }
+// };
+
+
 exports.updateBlog = async function (req, res) {
     try {
         const { id } = req.params;
@@ -71,9 +95,20 @@ exports.updateBlog = async function (req, res) {
         res.status(200).json(blog);
     } catch (error) {
         console.error("Error updating blog:", error.message);
-        res.status(400).json({ error: "Could not update blog" });
+        if (error.name === 'SequelizeValidationError') {
+            // Handle validation errors
+            const errors = error.errors.map(err => ({ field: err.path, message: err.message }));
+            res.status(400).json({ error: "Validation failed", errors });
+        } else {
+            // Handle other errors
+            res.status(500).json({ error: "Internal server error" });
+        }
     }
 };
+
+
+
+
 
 exports.deleteBlog = async function (req, res) {
     try {
@@ -124,6 +159,22 @@ exports.deleteBlog = async function (req, res) {
     }
 };
 
+// exports.createBlog = async function (req, res) {
+//     try {
+//         const { title, author } = req.body;
+//         const newBlog = await SingleBlog.create({
+//             title,
+//             author
+//             // Add other fields here
+//         });
+//         res.status(201).json(newBlog);
+//     } catch (error) {
+//         console.error("Error creating blog:", error.message);
+//         res.status(400).json({ error: error.message });
+//     }
+// };
+
+
 exports.createBlog = async function (req, res) {
     try {
         const { title, author } = req.body;
@@ -135,6 +186,16 @@ exports.createBlog = async function (req, res) {
         res.status(201).json(newBlog);
     } catch (error) {
         console.error("Error creating blog:", error.message);
-        res.status(400).json({ error: error.message });
+        if (error.name === 'SequelizeValidationError') {
+            // Handle validation errors
+            const errors = error.errors.map(err => ({ field: err.path, message: err.message }));
+            res.status(400).json({ error: "Validation failed", errors });
+        } else if (error.name === 'SequelizeUniqueConstraintError') {
+            // Handle unique constraint violation errors
+            res.status(400).json({ error: "Unique constraint violation", message: error.message });
+        } else {
+            // Handle other errors
+            res.status(500).json({ error: "Internal server error" });
+        }
     }
 };
