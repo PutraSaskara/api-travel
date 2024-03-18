@@ -7,10 +7,10 @@ const authMiddleware = require('../middleware/auth.js');
 
 const router = express.Router();
 
-router.get('/include',authMiddleware, IncludeController.getIncludes);
-router.get('/include/:id',authMiddleware, IncludeController.getIncludeById);
-router.post('/include',authMiddleware, IncludeController.createInclude);
-router.patch('/include/:id',authMiddleware, IncludeController.updateInclude);
-router.delete('/include/:id',authMiddleware, IncludeController.deleteInclude);
+router.get('/include', IncludeController.getIncludes);
+router.get('/include/:id', IncludeController.getIncludeById);
+router.post('/include', IncludeController.createInclude);
+router.patch('/include/:id', IncludeController.updateInclude);
+router.delete('/include/:id', IncludeController.deleteInclude);
 
 module.exports = router;

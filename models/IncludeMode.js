@@ -6,6 +6,7 @@ const {DataTypes} = Sequelize;
 const Include = db.define('included', {
     include1: {
         type: DataTypes.STRING,
+        allowNull: false
     },
     include2: {
         type: DataTypes.STRING,

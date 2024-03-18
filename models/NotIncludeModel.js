@@ -7,6 +7,7 @@ const {DataTypes} = Sequelize;
 const NotInclude = db.define('not_included', {
     notinclude1: {
         type: DataTypes.STRING,
+        allowNull: false
     },
     notinclude2: {
         type: DataTypes.STRING,

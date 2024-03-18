@@ -56,6 +56,11 @@ exports.createNotInclude = async (req, res) => {
             return res.status(400).json({ error: "NotInclude with the same tourId already exists" });
         }
 
+        // Check if at least one not include field is provided
+        if (!notinclude1 && !notinclude2 && !notinclude3) {
+            return res.status(400).json({ error: 'At least one not include field is required' });
+        }
+
         await NotInclude.create({ tourId, notinclude1, notinclude2, notinclude3 });
         res.status(201).json({ message: "NotInclude created successfully" });
     } catch (error) {
@@ -70,6 +75,7 @@ exports.createNotInclude = async (req, res) => {
         }
     }
 };
+
 
 
 

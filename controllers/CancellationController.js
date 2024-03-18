@@ -78,6 +78,11 @@ exports.createCancellation = async (req, res) => {
             return res.status(400).json({ error: 'A cancellation for this tour already exists' });
         }
 
+        // Check if at least one cancellation field is provided
+        if (!cancel1 && !cancel2) {
+            return res.status(400).json({ error: 'At least one cancellation field is required' });
+        }
+
         // Create the cancellation and associate it with the tour
         await Cancellation.create({
             tourId,
@@ -91,7 +96,6 @@ exports.createCancellation = async (req, res) => {
         return res.status(500).json({ error: 'Internal server error' });
     }
 };
-
 
 
 

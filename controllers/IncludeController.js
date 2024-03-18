@@ -75,6 +75,11 @@ exports.createInclude = async (req, res) => {
             return res.status(404).json({ error: 'Tour not found' });
         }
 
+        // Check if at least one include field is provided
+        if (!include1 && !include2 && !include3) {
+            return res.status(400).json({ error: 'At least one include field is required' });
+        }
+
         // Check if an include with the same tourId already exists
         const existingInclude = await Include.findOne({ where: { tourId } });
         if (existingInclude) {
@@ -102,6 +107,7 @@ exports.createInclude = async (req, res) => {
         }
     }
 };
+
 
 
 
