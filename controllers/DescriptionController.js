@@ -26,6 +26,8 @@ exports.getDescriptionById = async (req, res) => {
     }
 };
 
+
+
 // Create a new description
 // exports.createDescription = async (req, res) => {
 //     try {

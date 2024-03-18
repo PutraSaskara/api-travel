@@ -60,7 +60,7 @@ exports.getTourById = async function (req, res) {
     }
 
     res.json({
-      data: tour,
+      tour
     });
   } catch (error) {
     console.error(error);

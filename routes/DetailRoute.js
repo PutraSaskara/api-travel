@@ -19,4 +19,8 @@ router.post('/detail', DetailControllers.createDetail);
 router.patch('/detail/:id', DetailControllers.updateDetail);
 router.delete('/detail/:id', DetailControllers.deleteDetail);
 
+// update with tourId
+router.patch('/details/:tourId', DetailControllers.updateDetailByTourId)
+router.get('/details/:tourId', DetailControllers.getDetailByTourId)
+
 module.exports = router;

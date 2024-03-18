@@ -26,6 +26,23 @@ exports.getDetailById = async (req, res) => {
     }
 };
 
+
+// Get detail by tourId
+exports.getDetailByTourId = async (req, res) => {
+    try {
+        const { tourId } = req.params;
+        const detail = await Detail.findOne({ where: { tourId } });
+        if (!detail) {
+            return res.status(404).json({ error: "Detail not found" });
+        }
+
+        res.status(200).json(detail);
+    } catch (error) {
+        console.error("Error getting detail:", error.message);
+        res.status(500).json({ error: "Could not retrieve detail" });
+    }
+};
+
 // Create a new detail
 // exports.createDetail = async (req, res) => {
 //     try {
@@ -123,6 +140,28 @@ exports.updateDetail = async (req, res) => {
         res.status(400).json({ error: "Could not update detail" });
     }
 };
+
+
+// update with tourId
+exports.updateDetailByTourId = async (req, res) => {
+    try {
+        const { tourId } = req.params;
+        const detail = await Detail.findOne({ where: { tourId } });
+        if (!detail) {
+            return res.status(404).json({ error: "Detail not found" });
+        }
+
+        // Update the detail
+        await detail.update(req.body);
+
+        res.status(200).json({ message: "Detail updated successfully" });
+    } catch (error) {
+        console.error("Error updating detail:", error.message);
+        res.status(400).json({ error: "Could not update detail" });
+    }
+};
+
+
 
 // Delete a detail
 exports.deleteDetail = async (req, res) => {
