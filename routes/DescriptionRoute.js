@@ -19,4 +19,8 @@ router.post('/desc', DescriptionController.createDescription);
 router.patch('/desc/:id', DescriptionController.updateDescription);
 router.delete('/desc/:id', DescriptionController.deleteDescription);
 
+// by tourId
+router.get('/descs/:tourId', DescriptionController.getDescriptionByTourId);
+router.patch('/descs/:tourId', DescriptionController.updateDescriptionByTourId);
+
 module.exports = router;

@@ -19,4 +19,11 @@ router.post('/plan', PlanController.createPlan);
 router.patch('/plan/:id', PlanController.updatePlan);
 router.delete('/plan/:id', PlanController.deletePlan);
 
+// By tourId
+
+router.get('/plans/:tourId', PlanController.getPlanByTourId);
+router.patch('/plans/:tourId', PlanController.updatePlanByTourId);
+
+
+
 module.exports = router;

@@ -25,6 +25,20 @@ exports.getCancellationById = async (req, res) => {
         res.status(500).json({ error: "Could not retrieve cancellation" });
     }
 };
+exports.getCancellationByTourId = async (req, res) => {
+    try {
+        const { tourId } = req.params;
+        const cancellation = await Cancellation.findOne({ where: { tourId } });
+        if (!cancellation) {
+            return res.status(404).json({ error: "cancellation not found" });
+        }
+
+        res.status(200).json(cancellation);
+    } catch (error) {
+        console.error("Error getting cancellation:", error.message);
+        res.status(500).json({ error: "Could not retrieve cancellation" });
+    }
+};
 
 // Create a new cancellation
 // exports.createCancellation = async (req, res) => {
@@ -126,6 +140,27 @@ exports.updateCancellation = async (req, res) => {
     try {
         const { id } = req.params;
         const cancellation = await Cancellation.findByPk(id);
+        if (!cancellation) {
+            return res.status(404).json({ error: "Cancellation not found" });
+        }
+
+        // Update the cancellation
+        await cancellation.update(req.body);
+
+        res.status(200).json({ message: "Cancellation updated successfully" });
+    } catch (error) {
+        console.error("Error updating cancellation:", error.message);
+        if (error.name === 'SequelizeValidationError') {
+            return res.status(400).json({ error: "Validation error: " + error.message });
+        }
+        return res.status(500).json({ error: "Could not update cancellation" });
+    }
+};
+
+exports.updateCancellationByTourId = async (req, res) => {
+    try {
+        const { tourId } = req.params;
+        const cancellation = await Cancellation.findOne({ where: { tourId } });
         if (!cancellation) {
             return res.status(404).json({ error: "Cancellation not found" });
         }

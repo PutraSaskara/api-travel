@@ -19,4 +19,7 @@ router.post('/blog-image', upload.array('image', 3), BlogImage.createBlogImage);
 router.patch('/blog-image/:blogId', upload.array('image', 3), BlogImage.updateBlogImage);
 router.delete('/blog-image/:id',  BlogImage.deleteBlogImage);
 
+// by blogId
+router.get('/blog-images/:blogId', BlogImage.getBlogImageByBlogId);
+
 module.exports = router;

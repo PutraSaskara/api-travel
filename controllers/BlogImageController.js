@@ -30,6 +30,21 @@ exports.getBlogImageById = async (req, res) => {
         res.status(404).json({ error: error.message });
     }
 };
+exports.getBlogImageByBlogId = async (req, res) => {
+    try {
+        const { blogId } = req.params;
+        const blogImage = await BlogImage.findOne({ where: { blogId } });
+
+        if (!blogImage) {
+            throw new Error("Blog image not found");
+        }
+
+        res.status(200).json(blogImage);
+    } catch (error) {
+        console.error("Error retrieving blog image:", error.message);
+        res.status(404).json({ error: error.message });
+    }
+};
 
 // Create a new blog image
 // exports.createBlogImage = async (req, res) => {

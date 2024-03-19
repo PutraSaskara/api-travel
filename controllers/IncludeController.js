@@ -25,6 +25,19 @@ exports.getIncludeById = async (req, res) => {
         res.status(500).json({ error: "Could not retrieve include" });
     }
 };
+exports.getIncludeBytourId = async (req, res) => {
+    try {
+        const { tourId } = req.params;
+        const include = await Include.findOne({ where: { tourId } });
+        if (!include) {
+            return res.status(404).json({ error: "Include not found" });
+        }
+        res.status(200).json(include);
+    } catch (error) {
+        console.error("Error getting include by ID:", error.message);
+        res.status(500).json({ error: "Could not retrieve include" });
+    }
+};
 
 // Create a new include
 // Create a new include
@@ -136,6 +149,30 @@ exports.updateInclude = async (req, res) => {
     try {
         const { id } = req.params;
         const include = await Include.findByPk(id);
+        if (!include) {
+            return res.status(404).json({ error: "Include not found" });
+        }
+
+        // Update the include
+        await include.update(req.body);
+
+        res.status(200).json({ message: "Include updated successfully" });
+    } catch (error) {
+        console.error("Error updating include:", error.message);
+        if (error.name === 'SequelizeValidationError') {
+            // Handle validation errors
+            const errors = error.errors.map(err => ({ field: err.path, message: err.message }));
+            return res.status(400).json({ error: 'Validation failed', errors });
+        } else {
+            // Handle other errors
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+    }
+};
+exports.updateIncludeByTourId = async (req, res) => {
+    try {
+        const { tourId } = req.params;
+        const include = await Include.findOne({ where: { tourId } });
         if (!include) {
             return res.status(404).json({ error: "Include not found" });
         }

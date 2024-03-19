@@ -24,6 +24,20 @@ exports.getNotIncludeById = async (req, res) => {
         res.status(500).json({ error: "Could not retrieve notInclude" });
     }
 };
+exports.getNotIncludeByTourId = async (req, res) => {
+    try {
+        const { tourId } = req.params;
+        const notInclude = await NotInclude.findOne({ where: { tourId } });
+        if (!notInclude) {
+            return res.status(404).json({ error: "notInclude not found" });
+        }
+
+        res.status(200).json(notInclude);
+    } catch (error) {
+        console.error("Error getting notInclude:", error.message);
+        res.status(500).json({ error: "Could not retrieve notInclude" });
+    }
+};
 
 // Create a new notInclude
 // exports.createNotInclude = async (req, res) => {
@@ -130,6 +144,31 @@ exports.updateNotInclude = async (req, res) => {
 
         // Update the NotInclude entry
         await existingNotInclude.update({ tourId, notinclude1, notinclude2, notinclude3 });
+
+        res.status(200).json({ message: "NotInclude updated successfully" });
+    } catch (error) {
+        console.error("Error updating NotInclude:", error);
+        if (error.name === 'SequelizeValidationError') {
+            // Handle validation errors
+            const errors = error.errors.map(err => ({ field: err.path, message: err.message }));
+            return res.status(400).json({ error: "Validation failed", errors });
+        } else {
+            // Handle other errors
+            return res.status(500).json({ error: "Internal server error" });
+        }
+    }
+};
+exports.updateNotIncludeByTourId = async (req, res) => {
+    try {
+        const { tourId } = req.params;
+
+        // Check if the NotInclude entry with the provided ID exists
+        const existingNotInclude = await NotInclude.findOne({ where: { tourId } });
+        if (!existingNotInclude) {
+            return res.status(404).json({ error: "NotInclude not found" });
+        }
+
+        await existingNotInclude.update(req.body);
 
         res.status(200).json({ message: "NotInclude updated successfully" });
     } catch (error) {

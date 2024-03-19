@@ -13,4 +13,9 @@ router.post('/include', IncludeController.createInclude);
 router.patch('/include/:id', IncludeController.updateInclude);
 router.delete('/include/:id', IncludeController.deleteInclude);
 
+// By tourId
+router.get('/includes/:tourId', IncludeController.getIncludeBytourId);
+router.patch('/includes/:tourId', IncludeController.updateIncludeByTourId);
+
+
 module.exports = router;

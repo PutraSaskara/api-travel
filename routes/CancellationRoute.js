@@ -12,4 +12,9 @@ router.post('/cancellation', CancellationController.createCancellation);
 router.patch('/cancellation/:id', CancellationController.updateCancellation);
 router.delete('/cancellation/:id', CancellationController.deleteCancellation);
 
+// By tourId
+
+router.get('/cancellations/:tourId', CancellationController.getCancellationByTourId)
+router.patch('/cancellations/:tourId', CancellationController.updateCancellationByTourId)
+
 module.exports = router;

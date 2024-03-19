@@ -30,6 +30,21 @@ exports.getImageById = async (req, res) => {
         res.status(404).json({ error: error.message });
     }
 };
+exports.getImageByTourId = async (req, res) => {
+    try {
+        const { tourId } = req.params;
+        const image = await Image.findOne({ where: { tourId } });
+
+        if (!image) {
+            throw new Error("Image not found");
+        }
+
+        res.status(200).json(image);
+    } catch (error) {
+        console.error("Error retrieving image:", error.message);
+        res.status(404).json({ error: error.message });
+    }
+};
 
 // Create a new image
 // exports.createImage = async (req, res) => {

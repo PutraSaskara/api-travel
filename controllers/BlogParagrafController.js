@@ -25,6 +25,19 @@ exports.getBlogParagraphById = async (req, res) => {
         res.status(500).json({ error: "Could not retrieve blog paragraph" });
     }
 };
+exports.getBlogParagraphByBlogId = async (req, res) => {
+    try {
+        const { blogId } = req.params;
+        const blogParagraph = await BlogParagraf.findOne({ where: { blogId } });
+        if (!blogParagraph) {
+            return res.status(404).json({ error: "Blog paragraph not found" });
+        }
+        res.status(200).json(blogParagraph);
+    } catch (error) {
+        console.error("Error getting blog paragraph by ID:", error.message);
+        res.status(500).json({ error: "Could not retrieve blog paragraph" });
+    }
+};
 
 // Create a new blog paragraph
 // exports.createBlogParagraph = async (req, res) => {
@@ -173,6 +186,30 @@ exports.updateBlogParagraph = async (req, res) => {
 
         // Find the blog paragraph by ID
         const blogParagraph = await BlogParagraf.findByPk(id);
+        if (!blogParagraph) {
+            return res.status(404).json({ error: "Blog paragraph not found" });
+        }
+
+        // Update the blog paragraph
+        await blogParagraph.update(req.body);
+
+        return res.status(200).json({ message: "Blog paragraph updated successfully" });
+    } catch (error) {
+        console.error("Error updating blog paragraph:", error.message);
+        return res.status(500).json({ error: "Internal server error" });
+    }
+};
+exports.updateBlogParagraphByBlogId = async (req, res) => {
+    try {
+        const { blogId } = req.params;
+        
+        // Check if the id parameter is provided
+        if (!blogId) {
+            return res.status(400).json({ error: "Blog paragraph ID is required" });
+        }
+
+        // Find the blog paragraph by ID
+        const blogParagraph = await BlogParagraf.findOne({ where: { blogId } });
         if (!blogParagraph) {
             return res.status(404).json({ error: "Blog paragraph not found" });
         }
