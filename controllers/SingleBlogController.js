@@ -44,7 +44,7 @@ exports.getBlogById = async function (req, res) {
         }
 
         res.json({
-            data: blog
+            blog
         });
     } catch (error) {
         console.error(error);
