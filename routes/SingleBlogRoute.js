@@ -13,6 +13,7 @@ const router = express.Router();
 
 router.get('/single-blog', SingleBlogController.getBlogs); // Apply authentication middleware before the route handler
 router.get('/single-blog/:id', SingleBlogController.getBlogById);
+router.get('/single-blog-slug/:slug', SingleBlogController.getBlogBySlug);
 router.post('/single-blog', SingleBlogController.createBlog);
 router.patch('/single-blog/:id', SingleBlogController.updateBlog);
 router.delete('/single-blog/:id', SingleBlogController.deleteBlog);

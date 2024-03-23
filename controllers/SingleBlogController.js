@@ -52,6 +52,31 @@ exports.getBlogById = async function (req, res) {
     }
 };
 
+exports.getBlogBySlug = async function (req, res) {
+    try {
+      const slug = req.params.slug; // Get the slug from request parameters
+      const blog = await SingleBlog.findOne({
+        where: { slug }, // Find the blog with the provided slug
+        include: [
+          { model: BlogParagraf },
+          { model: BlogImage },
+        ],
+      });
+  
+      if (!blog) {
+        return res.status(404).json({ error: "Blog not found" });
+      }
+  
+      res.json({
+        blog
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  };
+  
+
 // exports.updateBlog = async function (req, res) {
 //     try {
 //         const { id } = req.params;

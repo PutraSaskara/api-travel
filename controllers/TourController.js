@@ -69,6 +69,36 @@ exports.getTourById = async function (req, res) {
 };
 
 
+exports.getTourBySlug = async function (req, res) {
+  try {
+    const slug = req.params.slug; // Get the slug from request parameters
+    const tour = await Tour.findOne({
+      where: { slug }, // Find the tour with the provided slug
+      include: [
+        { model: Detail },
+        { model: Plan },
+        { model: Description },
+        { model: Include },
+        { model: NotInclude },
+        { model: Cancellation },
+        { model: Image },
+      ],
+    });
+
+    if (!tour) {
+      return res.status(404).json({ error: "Tour not found" });
+    }
+
+    res.json({
+      tour
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+
 exports.getTourByIdSimple = async function (req, res) {
   try {
     const { id } = req.params;
