@@ -13,7 +13,7 @@ const BlogParagraf = db.define('blog_paragraf', {
         type: DataTypes.STRING,
     },
     paragraf2: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
     },
     link2: {
         type: DataTypes.STRING,
@@ -22,7 +22,7 @@ const BlogParagraf = db.define('blog_paragraf', {
         type: DataTypes.STRING,
     },
     paragraf3: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
     },
     link3: {
         type: DataTypes.STRING,
@@ -31,7 +31,7 @@ const BlogParagraf = db.define('blog_paragraf', {
         type: DataTypes.STRING,
     },
     paragraf4: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
     },
     link4: {
         type: DataTypes.STRING,
@@ -40,7 +40,7 @@ const BlogParagraf = db.define('blog_paragraf', {
         type: DataTypes.STRING,
     },
     paragraf5: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
     },
     link5: {
         type: DataTypes.STRING,
@@ -49,7 +49,7 @@ const BlogParagraf = db.define('blog_paragraf', {
         type: DataTypes.STRING,
     },
     paragraf6: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
     },
     link6: {
         type: DataTypes.STRING,
@@ -58,7 +58,7 @@ const BlogParagraf = db.define('blog_paragraf', {
         type: DataTypes.STRING,
     },
     paragraf7: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
     },
     link7: {
         type: DataTypes.STRING,

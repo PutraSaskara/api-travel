@@ -9,7 +9,7 @@ const Plan = db.define('tour_plan', {
         type: DataTypes.STRING,
     },
     description1: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
     },
     link1: {
         type: DataTypes.STRING,
@@ -18,7 +18,7 @@ const Plan = db.define('tour_plan', {
         type: DataTypes.STRING,
     },
     description2: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
     },
     link2: {
         type: DataTypes.STRING,
@@ -27,7 +27,7 @@ const Plan = db.define('tour_plan', {
         type: DataTypes.STRING,
     },
     description3: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
     },
     link3: {
         type: DataTypes.STRING,
@@ -36,7 +36,7 @@ const Plan = db.define('tour_plan', {
         type: DataTypes.STRING,
     },
     description4: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
     },
     link4: {
         type: DataTypes.STRING,
@@ -45,7 +45,7 @@ const Plan = db.define('tour_plan', {
         type: DataTypes.STRING,
     },
     description5: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
     },
     link5: {
         type: DataTypes.STRING,
@@ -54,7 +54,7 @@ const Plan = db.define('tour_plan', {
         type: DataTypes.STRING,
     },
     description6: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
     },
     link6: {
         type: DataTypes.STRING,
@@ -63,7 +63,7 @@ const Plan = db.define('tour_plan', {
         type: DataTypes.STRING,
     },
     description7: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
     },
     link7: {
         type: DataTypes.STRING,
@@ -72,7 +72,7 @@ const Plan = db.define('tour_plan', {
         type: DataTypes.STRING,
     },
     description8: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
     },
     link8: {
         type: DataTypes.STRING,
@@ -81,7 +81,7 @@ const Plan = db.define('tour_plan', {
         type: DataTypes.STRING,
     },
     description9: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
     },
     link9: {
         type: DataTypes.STRING,

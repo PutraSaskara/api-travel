@@ -12,6 +12,7 @@ const router = express.Router();
 
 router.get('/tours' ,  TourController.getTours); // Apply authentication middleware before the route handler
 router.get('/tours/:id', TourController.getTourById);
+router.get('/tourssimple/:id', TourController.getTourByIdSimple);
 router.post('/tours', TourController.createTour);
 router.patch('/tours/:id', TourController.updateTour);
 router.delete('/tours/:id', TourController.deleteTour);
