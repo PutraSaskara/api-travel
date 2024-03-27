@@ -16,6 +16,9 @@ const SingleBlog = db.define('single_blog', {
     slug: {
         type: DataTypes.STRING,
         unique: true // Ensure slug is unique
+    },
+    keywords: {
+        type: DataTypes.TEXT, // You can adjust the type according to your requirements
     }
 }, {
     freezeTableName: true,

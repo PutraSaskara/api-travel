@@ -162,7 +162,9 @@ exports.updateTour = async function (req, res) {
         price2,
         pricenote2,
         price3,
-        pricenote3, } = req.body;
+        pricenote3,
+        keywords,
+       } = req.body;
 
     await tour.update({
         title,
@@ -172,6 +174,7 @@ exports.updateTour = async function (req, res) {
         pricenote2,
         price3,
         pricenote3,
+        keywords,
       // Add other fields to update
     });
 
@@ -324,6 +327,7 @@ exports.createTour = async function (req, res) {
       pricenote2,
       price3,
       pricenote3,
+      keywords,
     } = req.body;
 
     // Example: Check if title is provided
@@ -347,6 +351,7 @@ exports.createTour = async function (req, res) {
       pricenote2,
       price3,
       pricenote3,
+      keywords,
       // Add other fields here
     });
     res.status(201).json(newTour);

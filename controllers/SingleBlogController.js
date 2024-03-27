@@ -108,11 +108,12 @@ exports.updateBlog = async function (req, res) {
         if (!blog) {
             return res.status(404).json({ error: "Blog not found" });
         }
-        const { title, author } = req.body;
+        const { title, author, keywords } = req.body;
 
         await blog.update({
             title,
-            author
+            author,
+            keywords
             // Add other fields to update
         });
 
@@ -202,10 +203,11 @@ exports.deleteBlog = async function (req, res) {
 
 exports.createBlog = async function (req, res) {
     try {
-        const { title, author } = req.body;
+        const { title, author, keywords } = req.body;
         const newBlog = await SingleBlog.create({
             title,
-            author
+            author,
+            keywords
             // Add other fields here
         });
         res.status(201).json(newBlog);

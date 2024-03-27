@@ -12,6 +12,7 @@ const ImageRoute = require('./routes/ImageRoute.js');
 const BlogRoute = require('./routes/SingleBlogRoute.js')
 const BlogParagraf = require('./routes/BlogParagrafRoute.js')
 const BlogImage = require('./routes/BlogImageRoute.js')
+const BookingRoutes = require('./routes/bookingRoute.js')
 
 const app = express();
 app.use(cors());
@@ -33,5 +34,6 @@ app.use(ImageRoute);
 app.use(BlogRoute);
 app.use(BlogParagraf);
 app.use(BlogImage);
+app.use(BookingRoutes)
 
 app.listen(5000, () => console.log('Server up and running...'));
